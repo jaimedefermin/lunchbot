@@ -54,16 +54,11 @@ def send_group_to_groupchat(n, users):
     client.chat_postMessage(channel=channel_id, text=f'The person in charge of making the reservation is <@{users[leader]}>')
     
 
-
-
-
 @app.route('/lunch-time', methods=['POST'])
 def lunch_time():
     global counting
     counting = True
     data =request.form
-    #user_id = data.get('user_id')
-    #print(data)
     channel_id =data.get('channel_id')
     client.chat_postMessage(channel=channel_id, text="""Hello, who's having lunch out today? Please reply "me" or "yes" if you would """)
     return Response(), 200
@@ -77,16 +72,12 @@ def no_more_people():
 
     data =request.form
     channel_id =data.get('channel_id')
-    #user_id = data.get('user_id')
 
     if counting == False:
         client.chat_postMessage(channel=channel_id, text= "You forgot to ask who was coming to lunch. Please type /lunch-time if you wish to ask the group :)")
     
     else:
         counting = False
-        
-        
-
         nlunchers = len(available)
         if nlunchers <= 7:
             groups = 1
@@ -97,30 +88,29 @@ def no_more_people():
         
         ppl = int(nlunchers/groups)
         leftovers = nlunchers - ppl*groups
-        index=0
 
         for i in range(0,groups):
             lunchgroups.append([])
-            for _ in range (0, ppl): 
-                lunchgroups[i].append(available[index])
-                index+=1
+            for _ in range(0,ppl):
+                person = random.randint(0,len(available)-1)
+                lunchgroups[i].append(available[person])
+                del available[person]
         if leftovers > 0:
             for i in range(0, leftovers):
-                lunchgroups[i].append(available[ppl*groups + i+1])
-
+                lunchgroups[i].append(available[i])
+                del available[i]
 
         client.chat_postMessage(channel=channel_id, text="""We are no longer counting""")
     
         if nlunchers  < 1:
             client.chat_postMessage(channel=channel_id, text='No one is going out for lunch today')
         elif nlunchers == 1:
-            client.chat_postMessage(channel=channel_id, text=f'Only <@{available[0]}> is having lunch out today :(')
+            client.chat_postMessage(channel=channel_id, text=f'Only <@{lunchgroups[0][0]}> is having lunch out today :(')
             send_group_to_groupchat(1, lunchgroups[0])
         else:
             client.chat_postMessage(channel=channel_id, text=f'{nlunchers} people are coming')
             for i in range(0, len(lunchgroups)-1):
                 send_group_to_groupchat(i+1, lunchgroups[i])   
-        available.clear()
     return Response(), 200
 
 
