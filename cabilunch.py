@@ -45,13 +45,17 @@ def message(payLoad):
 
 #@app.shortcut("create_conversation")
 def send_group_to_groupchat(n, users):
-    channel_name = f'lunch-group-{n}'
+    #added round time bc groups can't be deleted by a bot, and if two groups have the same name it crashes.
+    channel_name = f'lunch-group-{n}----{round(time())}'
     response = client.conversations_create(name = channel_name, user_ids = users)
     channel_id = response["channel"]["id"]
     response = client.conversations_invite(channel=channel_id, users=users)
     leader = random.randint(0, len(users)-1)
     client.chat_postMessage(channel=channel_id, text=f'This is lunchgroup number {n}')
     client.chat_postMessage(channel=channel_id, text=f'The person in charge of making the reservation is <@{users[leader]}>')
+    #added here bc of operation timeout. Slack expects a response before 3s.
+    return Response(), 200
+    #client.chat_postMessage(channel=channel_id, text=f'Please remember to delete this group chat before next lunch time.')
     
 
 @app.route('/lunch-time', methods=['POST'])
@@ -107,6 +111,7 @@ def no_more_people():
         elif nlunchers == 1:
             client.chat_postMessage(channel=channel_id, text=f'Only <@{lunchgroups[0][0]}> is having lunch out today :(')
             send_group_to_groupchat(1, lunchgroups[0])
+            
         else:
             client.chat_postMessage(channel=channel_id, text=f'{nlunchers} people are coming')
             for i in range(0, len(lunchgroups)-1):
