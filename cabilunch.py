@@ -114,7 +114,7 @@ def no_more_people():
             
         else:
             client.chat_postMessage(channel=channel_id, text=f'{nlunchers} people are coming')
-            for i in range(0, len(lunchgroups)-1):
+            for i in range(0, groups):
                 send_group_to_groupchat(i+1, lunchgroups[i])   
     return Response(), 200
 
