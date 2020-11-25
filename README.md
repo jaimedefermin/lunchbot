@@ -8,5 +8,9 @@ In order for the bot to work, a server must be provided in the slack api menu, a
 
 - The command `/no-more-people` stops the count and sends a group message to each of the groups with the information they need.
 
+## Issues.
+- As of right now, there is no possibility in slack to delete group chats, and therefore we have the risk of repeating the groupchat name. An extended name has been provided, using round time, to mediate this problem. However it would have been preferable to have a delete option for bots.
+
+- Additionally slack's legacy tokens are deprecated and therefore slack bots cannot execute commands. The bot would just post a message with the command name. This makes translating the code from command based to time based harder than expected.
 
 
