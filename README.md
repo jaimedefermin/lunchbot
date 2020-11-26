@@ -3,6 +3,8 @@ Slack bot that makes lunch groups of up to 7 people and chooses a person in char
 
 In order for the bot to work, a server must be provided in the slack api menu, as well as the token and signing secret in .env.
 
+*For visual purposes a Demo of how the bot works has been provided (lunchbot.mp4)*
+
 ## Bot commands.
 - To start the bot use `/lunch-time`. The bot will ask who will be having lunch and those who respond will be noted.
 
