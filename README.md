@@ -15,4 +15,5 @@ In order for the bot to work, a server must be provided in the slack api menu, a
 
 - Additionally slack's legacy tokens are deprecated and therefore slack bots cannot execute commands. The bot would just post a message with the command name. This makes translating the code from command based to time based harder than expected.
 
+**Both these issues could be resolved with unofficial methods, however since these are not supported by slack I have chosen not to implement them.**
 
