@@ -17,3 +17,5 @@ In order for the bot to work, a server must be provided in the slack api menu, a
 
 **Both these issues could be resolved with unofficial methods, however since these are not supported by slack I have chosen not to implement them.**
 
+**I have also been trying to create a workflow but I believe that feature is only for paid slack members.**
+
